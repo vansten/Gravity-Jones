@@ -26,6 +26,7 @@ public class Meta : MonoBehaviour {
             else
             {
                 Debug.Log("There's no more levels");
+                Application.LoadLevel(0);
             }
         }
     }
