@@ -136,7 +136,8 @@ public class AI : MonoBehaviour {
     void Die()
     {
         isAlive = false;
-        anim.Play("Death");
+        anim.enabled = true;
+        anim.Play("death");
         this.collider2D.enabled = false;
         this.transform.Translate(0, 0, 5);
     }
