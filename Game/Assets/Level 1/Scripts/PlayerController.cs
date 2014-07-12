@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour {
     private bool isAlive = true;
     private float deathTimer = 0.0f;
     private float deathCooldown = 2.0f;
+    private bool planeDone = false;
 
 	// Use this for initialization
 	void Start () 
@@ -104,6 +105,17 @@ public class PlayerController : MonoBehaviour {
             if(deathTimer>=0.4f)
             {
                 BloodPlane.renderer.enabled = true;
+                if (planeDone == false)
+                {
+                    BloodPlane.transform.LookAt(new Vector3(0, 0, -5), Vector3.zero);
+                    if (BloodPlane.transform.position.z < this.transform.position.z)
+                    {
+                        Vector3 pos = this.transform.position;
+                        pos.z = 1.0f;
+                        BloodPlane.transform.position = pos;
+                    }
+                    planeDone = true;
+                }
             }
             if(deathTimer >= deathCooldown)
             {
