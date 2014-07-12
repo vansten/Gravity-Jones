@@ -16,6 +16,7 @@ public class AlienDyingBox : MonoBehaviour {
     void Die()
     {
         this.transform.parent.gameObject.SendMessage("Die");
+        this.collider2D.enabled = false;
     }
 
     void Defy(GameObject ForceCenter)

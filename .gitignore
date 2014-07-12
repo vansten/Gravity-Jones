@@ -1,0 +1,6 @@
+Game/Library/
+*.csproj
+*.unityproj
+*.sln
+Game/Temp/
+Game/obj/Debug/Assembly-CSharp-firstpass-vs.csproj.FileListAbsolute.txt
