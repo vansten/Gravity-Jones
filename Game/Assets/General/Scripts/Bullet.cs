@@ -21,7 +21,7 @@ public class Bullet : MonoBehaviour {
         if(this.isAffected)
         {
             Vector2 forceDirection = this.transform.position - ForceCenter.transform.position;
-            forceDirection *= 300.0f / forceDirection.magnitude;
+            forceDirection *= 250.0f / forceDirection.magnitude;
             this.rigidbody2D.AddForce(forceDirection, ForceMode2D.Force);
         }
 	}
