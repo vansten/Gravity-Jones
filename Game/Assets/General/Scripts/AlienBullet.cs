@@ -13,7 +13,7 @@ public class AlienBullet : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        this.transform.Translate(0, -BulletSpeed * Time.deltaTime, 0);
+        this.transform.Translate(0, 0, BulletSpeed * Time.deltaTime);
 	}
 
     void OnTriggerEnter2D(Collider2D col)

@@ -76,6 +76,7 @@ public class AIvertical : MonoBehaviour {
                     {
                         Quaternion newRotation = Quaternion.LookRotation(target.transform.position - this.transform.position, Vector3.forward);
                         newRotation.z += 180;
+                        newRotation.y += 180;
                         transform.rotation = newRotation;
                         transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
                         Shoot();
@@ -125,14 +126,7 @@ public class AIvertical : MonoBehaviour {
             canShoot = false;
 			audio.PlayOneShot(ShootSound);
             startCounting = true;
-            Quaternion bulletRotation = this.transform.rotation;
-            float a = Mathf.Abs(this.transform.position.x - target.transform.position.x);
-            float b = Mathf.Abs(this.transform.position.y - target.transform.position.y);
-            float c = Mathf.Sqrt(Mathf.Pow(a, 2) + Mathf.Pow(b, 2));
-            float cos = Mathf.Pow(a, 2) + Mathf.Pow(c, 2) - Mathf.Pow(b, 2);
-            cos /= (2 * a * c);
-            float angle = Mathf.Acos(cos);
-            bulletRotation.z += angle;
+            Quaternion bulletRotation = Quaternion.LookRotation(target.transform.position - this.transform.position);
             Instantiate(Bullet, MyArm.transform.position, bulletRotation);
         }
     }
