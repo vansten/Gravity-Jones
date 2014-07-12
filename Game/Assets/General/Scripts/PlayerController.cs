@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject myCamera;
 	public AudioClip GravitySound;
 	public AudioClip ShootSound;
-    public GameObject BloodPlane;
+    public GameObject PlanePrefab;
 
     private bool canShoot = true;
     private bool startCounting = false;
@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour {
 	void Start () 
     {
         anim = gameObject.GetComponent<Animator>();
+        this.GravityAmmo = GameController.GetAmmoOnLevel();
 	}
 	
 	// Update is called once per frame
@@ -104,16 +105,9 @@ public class PlayerController : MonoBehaviour {
             deathTimer += Time.deltaTime;
             if(deathTimer>=0.4f)
             {
-                BloodPlane.renderer.enabled = true;
                 if (planeDone == false)
                 {
-                    BloodPlane.transform.LookAt(new Vector3(0, 0, -5), Vector3.zero);
-                    if (BloodPlane.transform.position.z < this.transform.position.z)
-                    {
-                        Vector3 pos = this.transform.position;
-                        pos.z = 1.0f;
-                        BloodPlane.transform.position = pos;
-                    }
+                    Instantiate(PlanePrefab, this.transform.position + new Vector3(0,0,1), PlanePrefab.transform.rotation);
                     planeDone = true;
                 }
             }

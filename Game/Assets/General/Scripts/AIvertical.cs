@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AI : MonoBehaviour {
+public class AIvertical : MonoBehaviour {
 
     public GameObject StartPoint;
     public GameObject EndPoint;
@@ -29,6 +29,10 @@ public class AI : MonoBehaviour {
 	void Start () {
         this.transform.position = StartPoint.transform.position;
         anim = GetComponent<Animator>();
+        if(StartPoint.transform.position == EndPoint.transform.position)
+        {
+            walk = false;
+        }
 	}
 	
 	// Update is called once per frame
@@ -50,8 +54,8 @@ public class AI : MonoBehaviour {
                     this.transform.Translate(Vector3.down * speed * Time.deltaTime);
                     if (fromStartToEnd)
                     {
-                        //if (this.transform.position.x >= EndPoint.transform.position.x)
-                        if (Vector3.Magnitude(this.transform.position - EndPoint.transform.position) <= 0.3f)
+                        if (this.transform.position.y >= EndPoint.transform.position.y)
+                        //if (Vector3.Magnitude(this.transform.position - EndPoint.transform.position) <= 0.3f)
                         {
                             this.transform.Rotate(Vector3.forward, 180);
                             fromStartToEnd = false;
@@ -71,6 +75,7 @@ public class AI : MonoBehaviour {
                     if (target != null)
                     {
                         Quaternion newRotation = Quaternion.LookRotation(target.transform.position - this.transform.position, Vector3.forward);
+                        newRotation.z += 180;
                         transform.rotation = newRotation;
                         transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
                         Shoot();
