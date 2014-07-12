@@ -35,7 +35,6 @@ public class Lever : MonoBehaviour {
             else
             {
                 this.transform.Translate(0, 2, 0);
-                //this.transform.Rotate(new Vector3(0, 0, 1), 180);
             }
             isAffectedAlready = true;
         }
