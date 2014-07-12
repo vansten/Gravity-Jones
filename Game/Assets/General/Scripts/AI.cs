@@ -10,6 +10,7 @@ public class AI : MonoBehaviour {
     public float Cooldown;
     public GameObject MyArm;
 	public AudioClip ShootSound;
+    public GameObject BloodPlane;
 
     private Vector3 direction;
     private bool fromStartToEnd = true;
@@ -22,6 +23,7 @@ public class AI : MonoBehaviour {
     private GameObject ForceCenter;
     private bool affected = false;
     private bool isAlive = true;
+    private float deathTimer = 0.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -84,6 +86,14 @@ public class AI : MonoBehaviour {
                         }
                     }
                 }
+            }
+        }
+        else
+        {
+            deathTimer += Time.deltaTime;
+            if (deathTimer >= 0.25f)
+            {
+                BloodPlane.renderer.enabled = true;
             }
         }
 	}

@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject myCamera;
 	public AudioClip GravitySound;
 	public AudioClip ShootSound;
+    public GameObject BloodPlane;
 
     private bool canShoot = true;
     private bool startCounting = false;
@@ -100,6 +101,10 @@ public class PlayerController : MonoBehaviour {
         else
         {
             deathTimer += Time.deltaTime;
+            if(deathTimer>=0.4f)
+            {
+                BloodPlane.renderer.enabled = true;
+            }
             if(deathTimer >= deathCooldown)
             {
                 Application.LoadLevel(Application.loadedLevel);
