@@ -16,7 +16,7 @@ public class GravityAmmo : MonoBehaviour {
         this.transform.Rotate(Vector3.forward, RotationSpeed * Time.deltaTime);
 	}
 
-    void OnCollisionEnter2D(Collision2D col)
+    void OnTriggerEnter2D(Collider2D col)
     {
         if(col.gameObject.tag == "Player")
         {
