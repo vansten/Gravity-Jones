@@ -148,6 +148,6 @@ public class AIvertical : MonoBehaviour {
         anim.enabled = true;
         anim.Play("death");
         this.collider2D.enabled = false;
-        this.transform.Translate(0, 0, 5);
+        this.transform.Translate(0, 0, 2);
     }
 }

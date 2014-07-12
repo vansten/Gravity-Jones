@@ -33,7 +33,6 @@ public class AlienDyingBox : MonoBehaviour {
     {
         if(col.gameObject.layer == 9)
         {
-            Debug.Log("kolizja ze sciana");
             Destroy(rigidbody2D);
         }
     }

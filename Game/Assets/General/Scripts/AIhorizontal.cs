@@ -145,7 +145,14 @@ public class AIhorizontal : MonoBehaviour {
         isAlive = false;
         anim.enabled = true;
         anim.Play("death");
-        this.collider2D.enabled = false;
-        this.transform.Translate(0, 0, 5);
+        if (this.rigidbody2D == null)
+        {
+            this.gameObject.AddComponent<Rigidbody2D>();
+        }
+        this.rigidbody2D.velocity = new Vector2(0, 0);
+        Vector3 pos = this.transform.position;
+        pos.z = 5;
+        this.transform.position = pos;
+        //this.collider2D.enabled = false;
     }
 }
