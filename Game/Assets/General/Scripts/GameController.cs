@@ -17,6 +17,10 @@ public class GameController : MonoBehaviour {
         {
             Application.LoadLevel(Application.loadedLevel);
         }
+        if(Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
 	}
 
     void OnDestroy()
