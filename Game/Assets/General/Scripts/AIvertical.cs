@@ -12,6 +12,7 @@ public class AIvertical : MonoBehaviour {
 	public AudioClip ShootSound;
     public GameObject BloodPlane;
     public GameObject AlienGunFakeParticle;
+    public AudioClip DeathSound;
 
     private Vector3 direction;
     private bool fromStartToEnd = true;
@@ -164,11 +165,15 @@ public class AIvertical : MonoBehaviour {
 
     void Die()
     {
-        isAlive = false;
-        anim.enabled = true;
-		AlienGunFakeParticle.renderer.enabled = false;
-        anim.Play("death");
-        this.collider2D.enabled = false;
-        this.transform.Translate(0, 0, 2);
+        if (isAlive)
+        {
+            isAlive = false;
+            anim.enabled = true;
+            AlienGunFakeParticle.renderer.enabled = false;
+            audio.PlayOneShot(DeathSound);
+            anim.Play("death");
+            this.collider2D.enabled = false;
+            this.transform.Translate(0, 0, 2);
+        }
     }
 }
