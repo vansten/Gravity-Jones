@@ -5,6 +5,7 @@ public class GravityAmmo : MonoBehaviour {
 
     
     public float RotationSpeed = 15.0f;
+    public AudioClip PickupSound;
 
 	// Use this for initialization
 	void Start () {
@@ -20,6 +21,7 @@ public class GravityAmmo : MonoBehaviour {
     {
         if(col.gameObject.tag == "Player")
         {
+            audio.PlayOneShot(PickupSound);
             col.gameObject.SendMessage("AddGravityAmmo");
             Destroy(this.gameObject);
         }

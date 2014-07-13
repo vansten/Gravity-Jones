@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour {
 	public AudioClip GravitySound;
 	public AudioClip ShootSound;
     public GameObject PlanePrefab;
+    public AudioClip WalkSound;
 
     private bool canShoot = true;
     private bool startCounting = false;
@@ -23,12 +24,14 @@ public class PlayerController : MonoBehaviour {
     private float deathTimer = 0.0f;
     private float deathCooldown = 2.0f;
     private bool planeDone = false;
+    private AudioSource[] audio;
 
 	// Use this for initialization
 	void Start () 
     {
         anim = gameObject.GetComponent<Animator>();
         this.GravityAmmo = GameController.GetAmmoOnLevel();
+        audio = this.transform.GetComponents<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -63,6 +66,17 @@ public class PlayerController : MonoBehaviour {
                 isWalking = false;
             }
             anim.SetBool("Is walking", isWalking);
+            if (!isWalking)
+            {
+                audio[2].Stop();
+            }
+            else
+            {
+                if (!audio[2].isPlaying)
+                {
+                    audio[2].Play();
+                }
+            }
 
             Vector3 mousePosition = Input.mousePosition;
             mousePosition.z = 10.0f;
@@ -125,7 +139,7 @@ public class PlayerController : MonoBehaviour {
             if (GravityAmmo > 0)
             {
                 Instantiate(GravityBullet, lookPosition, this.transform.rotation);
-				audio.PlayOneShot(GravitySound);
+				audio[0].PlayOneShot(GravitySound);
                 canShoot = false;
                 GravityAmmo--;
             }
@@ -137,7 +151,7 @@ public class PlayerController : MonoBehaviour {
         if (canShoot)
         {
             Instantiate(Bullet, MyArm.transform.position, this.transform.rotation);
-			audio.PlayOneShot(ShootSound);
+			audio[1].PlayOneShot(ShootSound);
             canShoot = false;
         }
     }
