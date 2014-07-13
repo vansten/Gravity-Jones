@@ -7,6 +7,7 @@ public class PlayerController : Player {
 
     public GameObject NormalGunFakeParticle;
     public GameObject GravityGunFakeParticle;
+    public AudioClip DeathSound;
 
     private float fakeParticleTimer = 0.0f;
     private float fakeParticleCooldown = 0.2f;
@@ -262,9 +263,13 @@ public class PlayerController : Player {
 
     void Die()
     {
-        isAlive = false;
-		NormalGunFakeParticle.renderer.enabled = false;
-        GravityGunFakeParticle.renderer.enabled = false;
-        anim.Play("Death");
+        if (isAlive)
+        {
+            isAlive = false;
+            NormalGunFakeParticle.renderer.enabled = false;
+            GravityGunFakeParticle.renderer.enabled = false;
+            anim.Play("Death");
+            audio[3].PlayOneShot(DeathSound);
+        }
     }
 }
