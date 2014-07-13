@@ -3,7 +3,7 @@ using System.Collections;
 
 public class AmmoCountChange : MonoBehaviour {
 
-	public PlayerController Player;
+	public Player Player;
 	public GUIText Ammo;
 	
 	// Use this for initialization

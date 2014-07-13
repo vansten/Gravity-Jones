@@ -1,37 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : Player {
 
-    public float MovementSpeed = 3.0f;
-    public GameObject Bullet;
-    public float Cooldown = 0.5f;
-    public GameObject GravityBullet;
-    public int GravityAmmo = 5;
-    public GameObject MyArm;
-    public GameObject myCamera;
-	public AudioClip GravitySound;
-	public AudioClip ShootSound;
-    public GameObject PlanePrefab;
-    public AudioClip WalkSound;
-
-    private bool canShoot = true;
-    private bool startCounting = false;
-    private float timer = 0.0f;
-    private bool isWalking = false;
-    private Animator anim;
-    private bool isAlive = true;
-    private float deathTimer = 0.0f;
-    private float deathCooldown = 2.0f;
-    private bool planeDone = false;
-    private AudioSource[] audio;
+	private bool isPadPlugged = false;
 
 	// Use this for initialization
 	void Start () 
     {
+		isAlive = true;
+		myCamera.transform.position = this.transform.position;
+		myCamera.transform.Translate(new Vector3(0, 0, -20.0f));
         anim = gameObject.GetComponent<Animator>();
         this.GravityAmmo = GameController.GetAmmoOnLevel();
         audio = this.transform.GetComponents<AudioSource>();
+		string[] inputArray = Input.GetJoystickNames ();
+		if (inputArray.Length == 0){
+			isPadPlugged = false;
+		}
+		else isPadPlugged = true;
 	}
 	
 	// Update is called once per frame
@@ -41,67 +28,129 @@ public class PlayerController : MonoBehaviour {
         {
             myCamera.transform.position = this.transform.position;
             myCamera.transform.Translate(new Vector3(0, 0, -20.0f));
-            if (Input.GetKey(KeyCode.A))
-            {
-                this.transform.Translate(new Vector3(-MovementSpeed * Time.deltaTime, 0, 0), Space.World);
-                isWalking = true;
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                this.transform.Translate(new Vector3(MovementSpeed * Time.deltaTime, 0, 0), Space.World);
-                isWalking = true;
-            }
-            if (Input.GetKey(KeyCode.W))
-            {
-                this.transform.Translate(new Vector3(0, MovementSpeed * Time.deltaTime, 0), Space.World);
-                isWalking = true;
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                this.transform.Translate(new Vector3(0, -MovementSpeed * Time.deltaTime, 0), Space.World);
-                isWalking = true;
-            }
-            if (Input.anyKey == false)
-            {
-                isWalking = false;
-            }
-            anim.SetBool("Is walking", isWalking);
-            if (!isWalking)
-            {
-                audio[2].Stop();
-            }
-            else
-            {
-                if (!audio[2].isPlaying)
-                {
-                    audio[2].Play();
-                }
-            }
+			if(isPadPlugged)
+			{
+				float X = Input.GetAxis ("Horizontal");
+				float Y = Input.GetAxis ("Vertical");
+				if(X == null)
+				{
+					X = 0;
+				}
+				if(Y == null)
+				{
+					Y = 0;
+				}
+				if (X != 0 || Y != 0)
+				{
+					isWalking = true;
+					this.transform.Translate(new Vector3(Input.GetAxis ("Horizontal") * MovementSpeed * Time.deltaTime, Input.GetAxis ("Vertical") * MovementSpeed * Time.deltaTime, 0), Space.World);
+					RightStick.transform.Translate(new Vector3(Input.GetAxis ("Horizontal") * MovementSpeed * Time.deltaTime, Input.GetAxis ("Vertical") * MovementSpeed * Time.deltaTime, 0), Space.World);
+				}
+				else
+				{
+					isWalking = false;
+				}
+				anim.SetBool("Is walking", isWalking);
 
-            Vector3 mousePosition = Input.mousePosition;
-            mousePosition.z = 10.0f;
-            Vector3 lookPosition = Camera.main.ScreenToWorldPoint(mousePosition);
-            lookPosition.z = 0;
-            this.transform.LookAt(lookPosition);
-            this.transform.Rotate(new Vector3(0, 1, 0), 90);
-            this.transform.Rotate(new Vector3(0, 0, -1), 90);
+				Vector3 lookPosition = RightStick.transform.position;
+				this.transform.rotation = Quaternion.LookRotation(lookPosition - this.transform.position, Vector3.up);
+				this.transform.Rotate(new Vector3(0, 1, 0), 90);
+				this.transform.Rotate(new Vector3(0, 0, -1), 90);
+				/*
+				if (Input.GetButtonDown("Fire1"))
+				{
+					Shoot();
+				}
+				if (Input.GetButtonUp("Fire1"))
+				{
+					startCounting = true;
+				}
+				if (Input.GetButtonDown("Fire3"))
+				{
+					ShootGravity(lookPosition);
+				}
+				if (Input.GetButtonUp("Fire3"))
+				{
+					startCounting = true;
+				}
+				*/
+				if(Input.GetAxis("Trigger") < 0)
+				{
+					Shoot ();
+				}
+				if(Input.GetAxis ("Trigger") > 0)
+				{
+					ShootGravity(lookPosition);
+				}
+				if(Input.GetAxis("Trigger") == 0)
+				{
+					startCounting = true;
+				}
+			}
+			else
+			{
+	            if (Input.GetKey(KeyCode.A))
+	            {
+	                this.transform.Translate(new Vector3(-MovementSpeed * Time.deltaTime, 0, 0), Space.World);
+	                isWalking = true;
+	            }
+	            if (Input.GetKey(KeyCode.D))
+	            {
+	                this.transform.Translate(new Vector3(MovementSpeed * Time.deltaTime, 0, 0), Space.World);
+	                isWalking = true;
+	            }
+	            if (Input.GetKey(KeyCode.W))
+	            {
+	                this.transform.Translate(new Vector3(0, MovementSpeed * Time.deltaTime, 0), Space.World);
+	                isWalking = true;
+	            }
+	            if (Input.GetKey(KeyCode.S))
+	            {
+	                this.transform.Translate(new Vector3(0, -MovementSpeed * Time.deltaTime, 0), Space.World);
+	                isWalking = true;
+	            }
+	            if (Input.anyKey == false)
+	            {
+	                isWalking = false;
+	            }
+	            anim.SetBool("Is walking", isWalking);
+	            if (!isWalking)
+	            {
+	                audio[2].Stop();
+	            }
+	            else
+	            {
+	                if (!audio[2].isPlaying)
+	                {
+	                    audio[2].Play();
+	                }
+	            }
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                Shoot();
-            }
-            if (Input.GetMouseButtonUp(0))
-            {
-                startCounting = true;
-            }
-            if (Input.GetMouseButtonDown(1))
-            {
-                ShootGravity(lookPosition);
-            }
-            if (Input.GetMouseButtonUp(1))
-            {
-                startCounting = true;
-            }
+	            Vector3 mousePosition = Input.mousePosition;
+	            mousePosition.z = 10.0f;
+	            Vector3 lookPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+	            lookPosition.z = 0;
+				this.transform.rotation = Quaternion.LookRotation(lookPosition - this.transform.position);
+	            this.transform.Rotate(new Vector3(0, 1, 0), 90);
+	            this.transform.Rotate(new Vector3(0, 0, -1), 90);
+
+	            if (Input.GetMouseButtonDown(0))
+	            {
+	                Shoot();
+	            }
+	            if (Input.GetMouseButtonUp(0))
+	            {
+	                startCounting = true;
+	            }
+	            if (Input.GetMouseButtonDown(1))
+	            {
+	                ShootGravity(lookPosition);
+	            }
+	            if (Input.GetMouseButtonUp(1))
+	            {
+	                startCounting = true;
+	            }
+			}
 
             if (startCounting)
             {
