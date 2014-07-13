@@ -18,6 +18,7 @@ public class Meta : MonoBehaviour {
         if (col.gameObject.tag == "Player")
         {
             int loadedLevel = Application.loadedLevel;
+			PlayerPrefs.SetInt("Artifacts Count", GameController.ArtifactsCount);
             int levelCount = Application.levelCount;
             if(loadedLevel < levelCount - 1)
             {

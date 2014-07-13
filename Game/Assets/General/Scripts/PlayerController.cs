@@ -208,6 +208,11 @@ public class PlayerController : Player {
         GravityAmmo++;
     }
 
+	void AddArtifact()
+	{
+		GameController.ArtifactsCount++;
+	}
+
     void Die()
     {
         isAlive = false;
