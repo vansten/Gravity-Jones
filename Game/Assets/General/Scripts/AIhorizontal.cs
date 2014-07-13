@@ -11,6 +11,7 @@ public class AIhorizontal : MonoBehaviour {
     public GameObject MyArm;
 	public AudioClip ShootSound;
     public GameObject BloodPlane;
+    public GameObject AlienGunFakeParticle;
 
     private Vector3 direction;
     private bool fromStartToEnd = true;
@@ -24,6 +25,9 @@ public class AIhorizontal : MonoBehaviour {
     private bool affected = false;
     private bool isAlive = true;
     private float deathTimer = 0.0f;
+    private float fakeParticleTimer = 0.0f;
+    private float fakeParticleCooldown = 0.2f;
+    private bool doAlienGunFakeParticle = false;
 
 	// Use this for initialization
 	void Start () {
@@ -33,6 +37,7 @@ public class AIhorizontal : MonoBehaviour {
         {
             walk = false;
         }
+        AlienGunFakeParticle.renderer.enabled = false;
 	}
 	
 	// Update is called once per frame
@@ -100,6 +105,16 @@ public class AIhorizontal : MonoBehaviour {
                 BloodPlane.renderer.enabled = true;
             }
         }
+        if(doAlienGunFakeParticle)
+        {
+            fakeParticleTimer += Time.deltaTime;
+            if(fakeParticleTimer >= fakeParticleCooldown)
+            {
+                AlienGunFakeParticle.renderer.enabled = false;
+                fakeParticleTimer = 0.0f;
+                doAlienGunFakeParticle = false;
+            }
+        }
 	}
 
     void StopWalking()
@@ -126,6 +141,8 @@ public class AIhorizontal : MonoBehaviour {
             startCounting = true;
             Quaternion bulletRotation = Quaternion.LookRotation(target.transform.position - this.transform.position);
             Instantiate(Bullet, MyArm.transform.position, bulletRotation);
+            AlienGunFakeParticle.renderer.enabled = true;
+            doAlienGunFakeParticle = true;
         }
     }
 

@@ -5,6 +5,14 @@ public class PlayerController : Player {
 
 	private bool isPadPlugged = false;
 
+    public GameObject NormalGunFakeParticle;
+    public GameObject GravityGunFakeParticle;
+
+    private float fakeParticleTimer = 0.0f;
+    private float fakeParticleCooldown = 0.2f;
+    private bool doNormalGunFakeParticle = false;
+    private bool doGravityGunFakeParticle = false;
+
 	// Use this for initialization
 	void Start () 
     {
@@ -20,6 +28,9 @@ public class PlayerController : Player {
 		}
 		else isPadPlugged = true;
         RightStick.transform.position = this.transform.position + new Vector3(0,10,0);
+
+        NormalGunFakeParticle.renderer.enabled = false;
+        GravityGunFakeParticle.renderer.enabled = false;
 	}
 	
 	// Update is called once per frame
@@ -54,6 +65,10 @@ public class PlayerController : Player {
 				this.transform.rotation = Quaternion.LookRotation(lookRot);
 				this.transform.Rotate(new Vector3(0, 1, 0), 90);
 				this.transform.Rotate(new Vector3(0, 0, -1), 90);
+                if(lookRot.x > 0.0f)
+                {
+                    this.transform.Rotate(new Vector3(0, 1, 0), 180);
+                }
 				/*
 				if (Input.GetButtonDown("Fire1"))
 				{
@@ -128,9 +143,18 @@ public class PlayerController : Player {
 	            mousePosition.z = 10.0f;
 	            Vector3 lookPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 	            lookPosition.z = 0;
+                Vector3 lookRot = lookPosition - this.transform.position;
+                if (lookRot.x == 0)
+                {
+                    lookRot.x = 0.01f;
+                }
 				this.transform.rotation = Quaternion.LookRotation(lookPosition - this.transform.position);
 	            this.transform.Rotate(new Vector3(0, 1, 0), 90);
 	            this.transform.Rotate(new Vector3(0, 0, -1), 90);
+                if (lookRot.x > 0.0f)
+                {
+                    this.transform.Rotate(new Vector3(0, 1, 0), 180);
+                }
 
 	            if (Input.GetMouseButtonDown(0))
 	            {
@@ -158,6 +182,25 @@ public class PlayerController : Player {
                     canShoot = true;
                     timer = 0.0f;
                     startCounting = false;
+                }
+            }
+
+            if(doNormalGunFakeParticle)
+            {
+                fakeParticleTimer += Time.deltaTime;
+                if(fakeParticleTimer >= fakeParticleCooldown)
+                {
+                    NormalGunFakeParticle.renderer.enabled = false;
+                    fakeParticleTimer = 0.0f;
+                }
+            }
+            if (doGravityGunFakeParticle)
+            {
+                fakeParticleTimer += Time.deltaTime;
+                if (fakeParticleTimer >= fakeParticleCooldown)
+                {
+                    GravityGunFakeParticle.renderer.enabled = false;
+                    fakeParticleTimer = 0.0f;
                 }
             }
         }
@@ -189,6 +232,8 @@ public class PlayerController : Player {
 				audio[0].PlayOneShot(GravitySound);
                 canShoot = false;
                 GravityAmmo--;
+                GravityGunFakeParticle.renderer.enabled = true;
+                doGravityGunFakeParticle = true;
             }
         }
     }
@@ -200,6 +245,8 @@ public class PlayerController : Player {
             Instantiate(Bullet, MyArm.transform.position, this.transform.rotation);
 			audio[1].PlayOneShot(ShootSound);
             canShoot = false;
+            NormalGunFakeParticle.renderer.enabled = true;
+            doNormalGunFakeParticle = true;
         }
     }
 
