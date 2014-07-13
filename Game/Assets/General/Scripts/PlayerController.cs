@@ -65,6 +65,10 @@ public class PlayerController : Player {
 				this.transform.rotation = Quaternion.LookRotation(lookRot);
 				this.transform.Rotate(new Vector3(0, 1, 0), 90);
 				this.transform.Rotate(new Vector3(0, 0, -1), 90);
+                if(lookRot.x > 0.0f)
+                {
+                    this.transform.Rotate(new Vector3(0, 1, 0), 180);
+                }
 				/*
 				if (Input.GetButtonDown("Fire1"))
 				{
@@ -178,6 +182,7 @@ public class PlayerController : Player {
                 if(fakeParticleTimer >= fakeParticleCooldown)
                 {
                     NormalGunFakeParticle.renderer.enabled = false;
+                    fakeParticleTimer = 0.0f;
                 }
             }
             if (doGravityGunFakeParticle)
@@ -186,6 +191,7 @@ public class PlayerController : Player {
                 if (fakeParticleTimer >= fakeParticleCooldown)
                 {
                     GravityGunFakeParticle.renderer.enabled = false;
+                    fakeParticleTimer = 0.0f;
                 }
             }
         }
