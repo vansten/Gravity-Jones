@@ -19,7 +19,7 @@ public class PlayerController : Player {
 			isPadPlugged = false;
 		}
 		else isPadPlugged = true;
-        RightStick.transform.position = this.transform.position + new Vector3(0,0,4);
+        RightStick.transform.position = this.transform.position + new Vector3(0,10,0);
 	}
 	
 	// Update is called once per frame
@@ -51,7 +51,7 @@ public class PlayerController : Player {
                 {
                     lookRot.x = 0.01f;
                 }
-				this.transform.rotation = Quaternion.LookRotation(lookRot, Vector3.up);
+				this.transform.rotation = Quaternion.LookRotation(lookRot);
 				this.transform.Rotate(new Vector3(0, 1, 0), 90);
 				this.transform.Rotate(new Vector3(0, 0, -1), 90);
 				/*
@@ -72,15 +72,15 @@ public class PlayerController : Player {
 					startCounting = true;
 				}
 				*/
-				if(Input.GetAxis("Trigger") < 0)
+				if(Input.GetAxis("Trigger") < 0 && Input.GetAxis("Trigger") > -0.7)
 				{
 					Shoot ();
 				}
-				if(Input.GetAxis ("Trigger") > 0)
+                if (Input.GetAxis("Trigger") > 0 && Input.GetAxis("Trigger") < 0.7)
 				{
 					ShootGravity(lookPosition);
 				}
-				if(Input.GetAxis("Trigger") == 0)
+				if(Input.GetAxis("Trigger") == 0 || Input.GetAxis("Trigger") > 0.7 || Input.GetAxis("Trigger") < -0.7)
 				{
 					startCounting = true;
 				}
