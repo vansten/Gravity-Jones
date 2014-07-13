@@ -98,8 +98,6 @@ public class PlayerController : Player {
 				if(Input.GetAxis("Trigger") == 0 || Input.GetAxis("Trigger") > 0.7 || Input.GetAxis("Trigger") < -0.7)
 				{
 					startCounting = true;
-                    NormalGunFakeParticle.renderer.enabled = false;
-                    //GravityGunFakeParticle.renderer.enabled = false;
 				}
 			}
 			else
@@ -145,9 +143,18 @@ public class PlayerController : Player {
 	            mousePosition.z = 10.0f;
 	            Vector3 lookPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 	            lookPosition.z = 0;
+                Vector3 lookRot = lookPosition - this.transform.position;
+                if (lookRot.x == 0)
+                {
+                    lookRot.x = 0.01f;
+                }
 				this.transform.rotation = Quaternion.LookRotation(lookPosition - this.transform.position);
 	            this.transform.Rotate(new Vector3(0, 1, 0), 90);
 	            this.transform.Rotate(new Vector3(0, 0, -1), 90);
+                if (lookRot.x > 0.0f)
+                {
+                    this.transform.Rotate(new Vector3(0, 1, 0), 180);
+                }
 
 	            if (Input.GetMouseButtonDown(0))
 	            {
