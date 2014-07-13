@@ -19,7 +19,7 @@ public class PlayerController : Player {
 			isPadPlugged = false;
 		}
 		else isPadPlugged = true;
-        RightStick.transform.position = this.transform.position;
+        RightStick.transform.position = this.transform.position + new Vector3(0,0,4);
 	}
 	
 	// Update is called once per frame
@@ -212,6 +212,5 @@ public class PlayerController : Player {
     {
         isAlive = false;
         anim.Play("Death");
-        this.collider2D.enabled = false;
     }
 }
