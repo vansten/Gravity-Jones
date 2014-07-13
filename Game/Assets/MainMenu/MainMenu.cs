@@ -11,7 +11,7 @@ public class MainMenu : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonUp(0))
+		if (Input.GetMouseButtonUp(0) || Input.GetAxis("Trigger") < 0)
 		{
 			int actualLevel = PlayerPrefs.GetInt ("Actual Level");
 			if(actualLevel == 0){

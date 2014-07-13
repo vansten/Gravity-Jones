@@ -10,7 +10,7 @@ public class GoodbyeScreen : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) || Input.GetAxis("Trigger") < 0)
         {
             Application.LoadLevel(0);
         }
