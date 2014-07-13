@@ -166,6 +166,7 @@ public class AIvertical : MonoBehaviour {
     {
         isAlive = false;
         anim.enabled = true;
+		AlienGunFakeParticle.renderer.enabled = false;
         anim.Play("death");
         this.collider2D.enabled = false;
         this.transform.Translate(0, 0, 2);

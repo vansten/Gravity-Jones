@@ -161,6 +161,7 @@ public class AIhorizontal : MonoBehaviour {
     {
         isAlive = false;
         anim.enabled = true;
+		AlienGunFakeParticle.renderer.enabled = false;
         anim.Play("death");
         if (this.rigidbody2D == null)
         {
