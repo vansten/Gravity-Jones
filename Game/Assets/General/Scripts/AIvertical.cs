@@ -75,8 +75,11 @@ public class AIvertical : MonoBehaviour {
                     if (target != null)
                     {
                         Quaternion newRotation = Quaternion.LookRotation(target.transform.position - this.transform.position, Vector3.forward);
-                        newRotation.z += 180;
-                        newRotation.y += 180;
+                        newRotation.z += 90;
+                        if (!fromStartToEnd)
+                        {
+                            newRotation.y += 180;
+                        }
                         transform.rotation = newRotation;
                         transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
                         Shoot();
