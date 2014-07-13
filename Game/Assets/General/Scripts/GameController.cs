@@ -30,6 +30,19 @@ public class GameController : MonoBehaviour {
         {
             Application.Quit();
         }
+        if(Input.GetKey(KeyCode.L))
+        {
+            int loadedLevel = Application.loadedLevel;
+            if(loadedLevel != 4)
+            {
+                loadedLevel++;
+            }
+            else
+            {
+                loadedLevel = 0;
+            }
+            Application.LoadLevel(loadedLevel);
+        }
 	}
 
     void OnDestroy()
