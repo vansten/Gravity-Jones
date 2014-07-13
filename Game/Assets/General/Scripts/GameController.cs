@@ -44,9 +44,4 @@ public class GameController : MonoBehaviour {
             Application.LoadLevel(loadedLevel);
         }
 	}
-
-    void OnDestroy()
-    {
-        PlayerPrefs.SetInt("Artifacts Count", ArtifactsCount);
-    }
 }
