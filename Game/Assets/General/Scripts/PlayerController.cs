@@ -19,6 +19,7 @@ public class PlayerController : Player {
 			isPadPlugged = false;
 		}
 		else isPadPlugged = true;
+        RightStick.transform.position = this.transform.position;
 	}
 	
 	// Update is called once per frame
@@ -32,14 +33,6 @@ public class PlayerController : Player {
 			{
 				float X = Input.GetAxis ("Horizontal");
 				float Y = Input.GetAxis ("Vertical");
-				if(X == null)
-				{
-					X = 0;
-				}
-				if(Y == null)
-				{
-					Y = 0;
-				}
 				if (X != 0 || Y != 0)
 				{
 					isWalking = true;
@@ -53,7 +46,12 @@ public class PlayerController : Player {
 				anim.SetBool("Is walking", isWalking);
 
 				Vector3 lookPosition = RightStick.transform.position;
-				this.transform.rotation = Quaternion.LookRotation(lookPosition - this.transform.position, Vector3.up);
+                Vector3 lookRot = lookPosition - this.transform.position;
+                if(lookRot.x == 0)
+                {
+                    lookRot.x = 0.01f;
+                }
+				this.transform.rotation = Quaternion.LookRotation(lookRot, Vector3.up);
 				this.transform.Rotate(new Vector3(0, 1, 0), 90);
 				this.transform.Rotate(new Vector3(0, 0, -1), 90);
 				/*
