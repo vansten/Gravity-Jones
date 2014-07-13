@@ -65,7 +65,7 @@ public class Log : LeverBasedObjectBase {
         //this.affected = false;
     }
 
-    public virtual void LeverOn()
+    public override void LeverOn()
     {
         this.switchOn = true;
         Vector3 distanceToStart = this.transform.position - StartPoint.transform.position;
@@ -82,7 +82,7 @@ public class Log : LeverBasedObjectBase {
         }
     }
 
-    public virtual void LeverOff()
+    public override void LeverOff()
     {
         this.switchOn = false;
     }

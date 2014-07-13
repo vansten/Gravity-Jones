@@ -25,7 +25,7 @@ public class Player : MonoBehaviour {
 	protected float deathTimer = 0.0f;
 	protected float deathCooldown = 2.0f;
 	protected bool planeDone = false;
-	protected AudioSource[] audio;
+	protected new AudioSource[] audio;
 
 	// Use this for initialization
 	void Start () {
