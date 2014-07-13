@@ -263,6 +263,8 @@ public class PlayerController : Player {
     void Die()
     {
         isAlive = false;
+		NormalGunFakeParticle.renderer.enabled = false;
+        GravityGunFakeParticle.renderer.enabled = false;
         anim.Play("Death");
     }
 }

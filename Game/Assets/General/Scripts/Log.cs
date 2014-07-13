@@ -11,6 +11,7 @@ public class Log : LeverBasedObjectBase {
     private bool affected = false;
     private bool switchOn = false;
     private GameObject ForceCenter;
+    private bool canKillPlayer = true;
 
 	// Use this for initialization
 	void Start () {
@@ -57,6 +58,7 @@ public class Log : LeverBasedObjectBase {
     void Defy(GameObject ForceCenter)
     {
         this.affected = true;
+        this.canKillPlayer = false;
         this.ForceCenter = ForceCenter;
     }
 
@@ -68,6 +70,7 @@ public class Log : LeverBasedObjectBase {
     public override void LeverOn()
     {
         this.switchOn = true;
+        this.canKillPlayer = false;
         Vector3 distanceToStart = this.transform.position - StartPoint.transform.position;
         Vector3 distanceToEnd = this.transform.position - EndPoint.transform.position;
         float distanceToStartLength = distanceToStart.magnitude;
@@ -91,12 +94,15 @@ public class Log : LeverBasedObjectBase {
     {
         if(col.gameObject.tag == "Player" || col.gameObject.tag == "EnemyDyingBox")
         {
-            Vector3 force = col.transform.position - this.transform.position;
-            force.z = 0.0f;
-            Vector3 forcePos = col.contacts[0].collider.transform.position;
-            forcePos.z = 0.0f;
-            col.rigidbody.AddForceAtPosition(300.0f*force, forcePos);
-            col.gameObject.SendMessage("Die");
+            if (canKillPlayer)
+            {
+                Vector3 force = col.transform.position - this.transform.position;
+                force.z = 0.0f;
+                Vector3 forcePos = col.contacts[0].collider.transform.position;
+                forcePos.z = 0.0f;
+                col.rigidbody.AddForceAtPosition(300.0f * force, forcePos);
+                col.gameObject.SendMessage("Die");
+            }
         }
     }
 }
