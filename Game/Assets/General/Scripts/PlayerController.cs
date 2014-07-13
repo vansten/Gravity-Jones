@@ -9,7 +9,7 @@ public class PlayerController : Player {
     public GameObject GravityGunFakeParticle;
 
     private float fakeParticleTimer = 0.0f;
-    private float fakeParticleCooldown = 0.1f;
+    private float fakeParticleCooldown = 0.2f;
     private bool doNormalGunFakeParticle = false;
     private bool doGravityGunFakeParticle = false;
 
@@ -98,6 +98,8 @@ public class PlayerController : Player {
 				if(Input.GetAxis("Trigger") == 0 || Input.GetAxis("Trigger") > 0.7 || Input.GetAxis("Trigger") < -0.7)
 				{
 					startCounting = true;
+                    NormalGunFakeParticle.renderer.enabled = false;
+                    //GravityGunFakeParticle.renderer.enabled = false;
 				}
 			}
 			else
