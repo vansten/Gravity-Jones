@@ -22,15 +22,15 @@ public class GameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if(Input.GetKey(KeyCode.R))
+	    if(Input.GetKey(KeyCode.R) || Input.GetButton("Back"))
         {
             Application.LoadLevel(Application.loadedLevel);
         }
-        if(Input.GetKey(KeyCode.Escape))
+        if(Input.GetKey(KeyCode.Escape) || Input.GetButton ("Start"))
         {
             Application.Quit();
         }
-        if(Input.GetKey(KeyCode.L))
+        if(Input.GetKey(KeyCode.L) || Input.GetButton ("Left Button"))
         {
             int loadedLevel = Application.loadedLevel;
             if(loadedLevel != 4)
