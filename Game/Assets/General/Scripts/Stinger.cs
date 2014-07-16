@@ -16,7 +16,7 @@ public class Stinger : MonoBehaviour {
     {
         if (col.gameObject.tag == "Player" || col.gameObject.tag == "EnemyDyingBox")
         {
-            col.gameObject.SendMessage("Die");
+            col.gameObject.SendMessage("Die", "Stringer");
             col.transform.position = this.transform.position;
         }
     }

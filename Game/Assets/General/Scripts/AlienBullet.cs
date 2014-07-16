@@ -24,7 +24,7 @@ public class AlienBullet : MonoBehaviour {
         }
         if(col.gameObject.tag == "Player")
         {
-            col.gameObject.SendMessage("Die");
+            col.gameObject.SendMessage("Die", "Alien Bullet");
             Destroy(this.gameObject);
         }
     }

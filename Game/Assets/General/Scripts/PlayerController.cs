@@ -261,7 +261,7 @@ public class PlayerController : Player {
 		GameController.ArtifactsCount++;
 	}
 
-    void Die()
+    void Die(string cause)
     {
         if (isAlive)
         {
@@ -270,6 +270,10 @@ public class PlayerController : Player {
             GravityGunFakeParticle.renderer.enabled = false;
             anim.Play("Death");
             audio[3].PlayOneShot(DeathSound);
+            if(cause != "Log")
+            {
+                collider2D.enabled = false;
+            }
         }
     }
 }

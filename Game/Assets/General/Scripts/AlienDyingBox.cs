@@ -13,9 +13,9 @@ public class AlienDyingBox : MonoBehaviour {
 	
 	}
 
-    void Die()
+    void Die(string cause)
     {
-        this.transform.parent.gameObject.SendMessage("Die");
+        this.transform.parent.gameObject.SendMessage("Die", cause);
         this.collider2D.enabled = false;
     }
 

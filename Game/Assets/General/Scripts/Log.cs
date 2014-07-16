@@ -101,7 +101,7 @@ public class Log : LeverBasedObjectBase {
                 Vector3 forcePos = col.contacts[0].collider.transform.position;
                 forcePos.z = 0.0f;
                 col.rigidbody.AddForceAtPosition(300.0f * force, forcePos);
-                col.gameObject.SendMessage("Die");
+                col.gameObject.SendMessage("Die", "Log");
             }
         }
     }

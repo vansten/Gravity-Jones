@@ -41,7 +41,7 @@ public class Bullet : MonoBehaviour {
     {
         if (col.gameObject.tag == "EnemyDyingBox")
         {
-            col.gameObject.SendMessage("Die");
+            col.gameObject.SendMessage("Die", "Bullet");
             Destroy(this.gameObject);
         }
         if(col.gameObject.layer == 9)
@@ -50,7 +50,7 @@ public class Bullet : MonoBehaviour {
         }
         if(col.gameObject.tag == "Player")
         {
-            col.gameObject.SendMessage("Die");
+            col.gameObject.SendMessage("Die", "Bullet");
         }
     }
 }

@@ -17,7 +17,7 @@ public class Lava : MonoBehaviour {
     {
         if(col.gameObject.tag == "Player" || col.gameObject.tag == "EnemyDyingBox")
         {
-            col.gameObject.SendMessage("Die");
+            col.gameObject.SendMessage("Die", "Lava");
         }
     }
 }
