@@ -117,6 +117,7 @@ public class AIbase : MonoBehaviour {
     {
         this.ForceCenter = ForceCenter;
         affected = true;
+        Affect();
     }
 
     public void StopDefying()

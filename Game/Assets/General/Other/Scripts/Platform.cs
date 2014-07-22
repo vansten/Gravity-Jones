@@ -20,9 +20,13 @@ public class Platform : LeverBasedObjectBase
 	void Update () {
 	    if(showBridge)
         {
-            if(Bridge.transform.position.z >= BridgeEndPoint.transform.position.z)
+            if (renderer.sortingOrder < 1)
             {
-                Bridge.transform.Translate(0, 0, -BridgeSpeed*Time.deltaTime);
+                renderer.sortingOrder += 1;
+            }
+            else
+            {
+                this.enabled = false;
             }
         }
 	}
