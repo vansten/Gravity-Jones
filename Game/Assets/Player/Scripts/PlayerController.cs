@@ -5,14 +5,7 @@ public class PlayerController : Player {
 
 	private bool isPadPlugged = false;
 
-    public GameObject NormalGunFakeParticle;
-    public GameObject GravityGunFakeParticle;
     public AudioClip DeathSound;
-
-    private float fakeParticleTimer = 0.0f;
-    private float fakeParticleCooldown = 0.2f;
-    private bool doNormalGunFakeParticle = false;
-    private bool doGravityGunFakeParticle = false;
 
 	// Use this for initialization
 	void Start () 
@@ -28,10 +21,7 @@ public class PlayerController : Player {
 			isPadPlugged = false;
 		}
 		else isPadPlugged = true;
-        RightStick.transform.position = this.transform.position + new Vector3(0,10,0);
-
-        //NormalGunFakeParticle.renderer.enabled = false;
-        //GravityGunFakeParticle.renderer.enabled = false;
+        RightStick.transform.position = this.transform.position + new Vector3(0,1,0);
 	}
 	
 	// Update is called once per frame
@@ -57,15 +47,16 @@ public class PlayerController : Player {
 				}
 				anim.SetBool("Is walking", isWalking);
 
-				Vector3 lookPosition = RightStick.transform.position;
-                Vector3 lookRot = lookPosition - this.transform.position;
+                Vector3 lookRot = RightStick.transform.position - this.transform.position;
                 if(lookRot.x == 0)
                 {
                     lookRot.x = 0.01f;
                 }
-				this.transform.rotation = Quaternion.LookRotation(lookRot);
-				this.transform.Rotate(new Vector3(0, 1, 0), 90);
-				this.transform.Rotate(new Vector3(0, 0, -1), 90);
+                //this.transform.rotation = Quaternion.LookRotation(lookRot);
+                //this.transform.Rotate(new Vector3(0, 1, 0), 90);
+                //this.transform.Rotate(new Vector3(0, 0, -1), 90);
+                float angle = Vector2.Angle(RightStick.transform.position, this.transform.position);
+                this.transform.Rotate(Vector3.up, angle);
                 if(lookRot.x > 0.0f)
                 {
                     this.transform.Rotate(new Vector3(0, 1, 0), 180);
@@ -76,7 +67,7 @@ public class PlayerController : Player {
 				}
                 if (Input.GetAxis("Trigger") > 0 && Input.GetAxis("Trigger") < 0.7)
 				{
-					ShootGravity(lookPosition);
+					ShootGravity(RightStick.transform.position);
 				}
 				if(Input.GetAxis("Trigger") == 0 || Input.GetAxis("Trigger") > 0.7 || Input.GetAxis("Trigger") < -0.7)
 				{
@@ -167,25 +158,6 @@ public class PlayerController : Player {
                     startCounting = false;
                 }
             }
-
-            if(doNormalGunFakeParticle)
-            {
-                fakeParticleTimer += Time.deltaTime;
-                if(fakeParticleTimer >= fakeParticleCooldown)
-                {
-                    //NormalGunFakeParticle.renderer.enabled = false;
-                    fakeParticleTimer = 0.0f;
-                }
-            }
-            if (doGravityGunFakeParticle)
-            {
-                fakeParticleTimer += Time.deltaTime;
-                if (fakeParticleTimer >= fakeParticleCooldown)
-                {
-                    //GravityGunFakeParticle.renderer.enabled = false;
-                    fakeParticleTimer = 0.0f;
-                }
-            }
         }
         else
         {
@@ -215,8 +187,6 @@ public class PlayerController : Player {
 				audio[0].PlayOneShot(GravitySound);
                 canShoot = false;
                 GravityAmmo--;
-                //GravityGunFakeParticle.renderer.enabled = true;
-                doGravityGunFakeParticle = true;
             }
         }
     }
@@ -229,8 +199,6 @@ public class PlayerController : Player {
             bullet.transform.Rotate(0, 0, 180);
 			audio[1].PlayOneShot(ShootSound);
             canShoot = false;
-            //NormalGunFakeParticle.renderer.enabled = true;
-            doNormalGunFakeParticle = true;
         }
     }
 
@@ -249,8 +217,6 @@ public class PlayerController : Player {
         if (isAlive)
         {
             isAlive = false;
-            //NormalGunFakeParticle.renderer.enabled = false;
-            //GravityGunFakeParticle.renderer.enabled = false;
             anim.Play("Death");
             audio[3].PlayOneShot(DeathSound);
             if(cause != "Log")
