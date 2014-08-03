@@ -10,9 +10,7 @@ public class GameController : MonoBehaviour {
 	void Start () {
         ArtifactsCount = PlayerPrefs.GetInt("Artifacts Count");
 		Screen.showCursor = false;
-        GravityAmmo[0] = 3;
-        GravityAmmo[1] = 4;
-        GravityAmmo[2] = 5;
+        LoadGravityAmmo();
 	}
 
     public static int GetAmmoOnLevel()
@@ -26,10 +24,14 @@ public class GameController : MonoBehaviour {
         {
             Application.LoadLevel(Application.loadedLevel);
         }
+
         if(Input.GetKey(KeyCode.Escape) || Input.GetButton ("Start"))
         {
             Application.Quit();
         }
+
+#if UNITY_EDITOR
+        Debug.Log("Unity Editor: " + Application.unityVersion);
         if(Input.GetKey(KeyCode.L) || Input.GetButton ("Left Button"))
         {
             int loadedLevel = Application.loadedLevel;
@@ -43,5 +45,13 @@ public class GameController : MonoBehaviour {
             }
             Application.LoadLevel(loadedLevel);
         }
+#endif
 	}
+
+    void LoadGravityAmmo()
+    {
+        GravityAmmo[0] = 3;
+        GravityAmmo[1] = 4;
+        GravityAmmo[2] = 5;
+    }
 }

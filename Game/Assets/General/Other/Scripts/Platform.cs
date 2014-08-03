@@ -26,6 +26,7 @@ public class Platform : LeverBasedObjectBase
             }
             else
             {
+                Destroy(Lava.gameObject);
                 this.enabled = false;
             }
         }
@@ -33,7 +34,6 @@ public class Platform : LeverBasedObjectBase
 
     public override void LeverOn()
     {
-        Destroy(Lava.gameObject);
         showBridge = true;
     }
 

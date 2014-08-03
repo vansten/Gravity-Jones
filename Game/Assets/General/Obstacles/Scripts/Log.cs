@@ -6,12 +6,13 @@ public class Log : LeverBasedObjectBase {
     public GameObject StartPoint;
     public GameObject EndPoint;
     public float Speed = 50.0f;
+    public float ForceMultiplier = 300.0f;
 
     private bool fromStartToEnd = true;
     private bool affected = false;
     private bool switchOn = false;
     private GameObject ForceCenter;
-    private bool canKillPlayer = true;
+    private bool canKill = true;
 
 	// Use this for initialization
 	void Start () {
@@ -20,9 +21,9 @@ public class Log : LeverBasedObjectBase {
 	
 	// Update is called once per frame
 	void Update () {
-        if (affected == false)
+        if (!affected)
         {
-            if (switchOn == false)
+            if (!switchOn)
             {
                 if (fromStartToEnd)
                 {
@@ -42,7 +43,7 @@ public class Log : LeverBasedObjectBase {
                 }
             }
         }
-        else if(affected)
+        else
         {
            if(this.transform.position.x < ForceCenter.transform.position.x)
            {
@@ -58,7 +59,7 @@ public class Log : LeverBasedObjectBase {
     void Defy(GameObject ForceCenter)
     {
         this.affected = true;
-        this.canKillPlayer = false;
+        this.canKill = false;
         this.ForceCenter = ForceCenter;
     }
 
@@ -70,12 +71,8 @@ public class Log : LeverBasedObjectBase {
     public override void LeverOn()
     {
         this.switchOn = true;
-        this.canKillPlayer = false;
-        Vector3 distanceToStart = this.transform.position - StartPoint.transform.position;
-        Vector3 distanceToEnd = this.transform.position - EndPoint.transform.position;
-        float distanceToStartLength = distanceToStart.magnitude;
-        float distanceToEndLength = distanceToEnd.magnitude;
-        if (distanceToStartLength > distanceToEndLength)
+        this.canKill = false;
+        if((this.transform.position - StartPoint.transform.position).magnitude > (this.transform.position - EndPoint.transform.position).magnitude)
         {
             this.transform.position = EndPoint.transform.position;
         }
@@ -88,19 +85,20 @@ public class Log : LeverBasedObjectBase {
     public override void LeverOff()
     {
         this.switchOn = false;
+        this.canKill = true;
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
         if(col.gameObject.tag == "Player" || col.gameObject.tag == "EnemyDyingBox")
         {
-            if (canKillPlayer)
+            if (canKill)
             {
                 Vector3 force = col.transform.position - this.transform.position;
                 force.z = 0.0f;
                 Vector3 forcePos = col.contacts[0].collider.transform.position;
                 forcePos.z = 0.0f;
-                col.rigidbody.AddForceAtPosition(300.0f * force, forcePos);
+                col.rigidbody.AddForceAtPosition(ForceMultiplier * force, forcePos);
                 col.gameObject.SendMessage("Die", "Log");
             }
         }
