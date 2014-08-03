@@ -12,7 +12,7 @@ public class PlayerControllerGamePad : Player {
         myCamera.transform.Translate(new Vector3(0, 0, -20.0f));
         anim = this.gameObject.GetComponent<Animator>();
         this.GravityAmmo = GameController.GetAmmoOnLevel();
-        audio = this.transform.GetComponent<AudioSource>();
+        audio = this.transform.GetComponents<AudioSource>();
         RightStick.transform.position = this.transform.position + new Vector3(0, 1, 0);
 	}
 	
@@ -38,13 +38,13 @@ public class PlayerControllerGamePad : Player {
             anim.SetBool("Is walking", isWalking);
             if (!isWalking)
             {
-                audio.Stop();
+                audio[0].Stop();
             }
             else
             {
-                if (!audio.isPlaying)
+                if (!audio[0].isPlaying)
                 {
-                    audio.Play();
+                    audio[0].Play();
                 }
             }
 
@@ -53,13 +53,8 @@ public class PlayerControllerGamePad : Player {
             {
                 lookRot.x = 0.01f;
             }
-            this.transform.rotation = Quaternion.LookRotation(lookRot);
-            this.transform.Rotate(new Vector3(0, 1, 0), 90);
-            this.transform.Rotate(new Vector3(0, 0, -1), 90);
-            if (lookRot.x > 0.0f)
-            {
-                this.transform.Rotate(new Vector3(0, 1, 0), 180);
-            }
+            this.transform.up = -lookRot.normalized;
+
             if (Input.GetAxis("Trigger") < 0 && Input.GetAxis("Trigger") > -0.7)
             {
                 Shoot();

@@ -25,7 +25,7 @@ public class Player : MonoBehaviour {
 	protected float deathTimer = 0.0f;
 	protected float deathCooldown = 2.0f;
 	protected bool planeDone = false;
-    protected new AudioSource audio;
+    protected new AudioSource[] audio;
     protected Camera myCamera;
 
 	// Use this for initialization
@@ -46,7 +46,7 @@ public class Player : MonoBehaviour {
         {
             GameObject bullet = Instantiate(Bullet, MyArm.transform.position, this.transform.rotation) as GameObject;
             bullet.transform.Rotate(0, 0, 180);
-            audio.PlayOneShot(ShootSound);
+            audio[1].PlayOneShot(ShootSound);
             canShoot = false;
         }
     }
@@ -58,7 +58,7 @@ public class Player : MonoBehaviour {
             if (GravityAmmo > 0)
             {
                 Instantiate(GravityBullet, lookPosition, this.transform.rotation);
-                audio.PlayOneShot(GravitySound);
+                audio[2].PlayOneShot(GravitySound);
                 canShoot = false;
                 GravityAmmo--;
             }
@@ -81,7 +81,7 @@ public class Player : MonoBehaviour {
         {
             isAlive = false;
             anim.Play("Death");
-            audio.PlayOneShot(DeathSound);
+            audio[3].PlayOneShot(DeathSound);
             if (cause != "Log")
             {
                 collider2D.enabled = false;
