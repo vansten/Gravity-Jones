@@ -44,7 +44,7 @@ public class Bullet : MonoBehaviour {
             col.gameObject.SendMessage("Die", "Bullet");
             Destroy(this.gameObject);
         }
-        if(col.gameObject.layer == 9)
+        if(col.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             Destroy(this.gameObject);
         }

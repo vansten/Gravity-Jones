@@ -6,11 +6,14 @@ public class GameController : MonoBehaviour {
     public static int ArtifactsCount = 0;
     public static int[] GravityAmmo = new int[3];
 
+    private float ambientLight = 5.0f / 255.0f;
+
 	// Use this for initialization
 	void Start () {
         ArtifactsCount = PlayerPrefs.GetInt("Artifacts Count");
 		Screen.showCursor = false;
         LoadGravityAmmo();
+        RenderSettings.ambientLight = new Color(ambientLight, ambientLight, ambientLight);
 	}
 
     public static int GetAmmoOnLevel()

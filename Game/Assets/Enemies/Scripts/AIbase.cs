@@ -12,7 +12,6 @@ public class AIbase : MonoBehaviour {
     public GameObject MyArm;
     [Tooltip("This is for blood when alien dies")]
     public GameObject BloodPlane;
-    public GameObject AlienGunFakeParticle;
     [Space(2)]
     [Header("SOUNDS")]
     public AudioClip DeathSound;
@@ -36,19 +35,16 @@ public class AIbase : MonoBehaviour {
     protected bool affected = false;
     protected bool isAlive = true;
     protected float deathTimer = 0.0f;
-    protected float fakeParticleTimer = 0.0f;
-    protected float fakeParticleCooldown = 0.2f;
-    protected bool doAlienGunFakeParticle = false;
     protected bool stayInPosition = false;
-    protected int currentNode = 0;
-    protected int nextNode = 0;
     protected bool fromStartToEnd = true;
+    private int currentNode = 0;
+    private int nextNode = 1;
 
 	// Use this for initialization
     public void Start()
     {
         anim = this.GetComponent<Animator>();
-        if(Nodes.Count == 0)
+        if(Nodes.Count < 2)
         {
            stayInPosition = true;
            if(stayInPosition != StayInPosition)
@@ -59,14 +55,20 @@ public class AIbase : MonoBehaviour {
         else
         {
            stayInPosition = StayInPosition;
-           this.transform.position = Nodes[currentNode].position;
-           nextNode = 1;
+        }
+
+        if (!stayInPosition)
+        {
+            nextNode = 1;
+            this.transform.position = Nodes[0].position;
+            transform.up = (this.transform.position - Nodes[nextNode].position).normalized;
         }
 	}
 	
 	// Update is called once per frame
     void Update()
     {
+
     }
 
     public void StopWalking()
@@ -108,8 +110,6 @@ public class AIbase : MonoBehaviour {
             audio.PlayOneShot(ShootSound);
             startCounting = true;
             Instantiate(Bullet, MyArm.transform.position, this.transform.rotation);
-            //AlienGunFakeParticle.renderer.enabled = true;
-            doAlienGunFakeParticle = true;
         }
     }
 
@@ -131,7 +131,6 @@ public class AIbase : MonoBehaviour {
         {
             isAlive = false;
             anim.enabled = true;
-            //AlienGunFakeParticle.renderer.enabled = false;
             audio.PlayOneShot(DeathSound);
             anim.Play("death");
             if (this.rigidbody2D == null)
@@ -139,9 +138,7 @@ public class AIbase : MonoBehaviour {
                 this.gameObject.AddComponent<Rigidbody2D>();
             }
             this.rigidbody2D.velocity = new Vector2(0, 0);
-            Vector3 pos = this.transform.position;
-            pos.z = 5;
-            this.transform.position = pos;
+            this.transform.Translate(0, 0, 5);
             if(cause == "Bullet")
             {
                 this.collider2D.enabled = false;
@@ -159,8 +156,12 @@ public class AIbase : MonoBehaviour {
 
     public virtual void Move()
     {
-        this.transform.Translate(Vector3.down * this.speed * Time.deltaTime);
-        
+        this.transform.Translate(-Vector2.up * this.speed * Time.deltaTime);
+        float distanceToNextNode = (this.transform.position - Nodes[nextNode].position).magnitude;
+        if(distanceToNextNode < 0.3f)
+        {
+            Rotate();
+        }
     }
 
     public virtual void Track()
@@ -170,36 +171,45 @@ public class AIbase : MonoBehaviour {
 
     int getNextNode()
     {
-        if(fromStartToEnd)
-        {
-            if(currentNode + 1 < Nodes.Count)
-            {
-                return currentNode + 1;
-            }
-            else
-            {
-                if (Circle)
-                {
-                    return 0;
-                }
-                else
-                {
-                    fromStartToEnd = false;
-                    return currentNode - 1;
-                }
-            }
-        }
-        else
-        {
-            if(currentNode - 1 >= 0)
-            {
-                return currentNode - 1;
-            }
-            else
-            {
-                fromStartToEnd = true;
-                return currentNode + 1;
-            }
-        }
+       int val = nextNode;
+       if(Circle)
+       {
+           val += 1;
+           if(val == Nodes.Count)
+           {
+               val = 0;
+           }
+       }
+       else
+       {
+           if(fromStartToEnd)
+           {
+               val += 1;
+               if(val == Nodes.Count)
+               {
+                   val -= 2;
+                   fromStartToEnd = false;
+               }
+           }
+           else
+           {
+               val -= 1;
+               if(val == -1)
+               {
+                   val = 1;
+                   fromStartToEnd = true;
+               }
+           }
+       }
+
+       return val;
+    }
+
+    void Rotate()
+    {
+        transform.up = (Nodes[nextNode].position - Nodes[currentNode].position).normalized;
+        currentNode = nextNode;
+        nextNode = getNextNode();
+        Debug.Log(transform.up);
     }
 }

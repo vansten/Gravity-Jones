@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 public class BasicAlien : AIbase {
 
-    private bool rotated = false;
-
     //Update function
     void Update()
     {
@@ -15,7 +13,8 @@ public class BasicAlien : AIbase {
             {
                 if(walk)
                 {
-                    rotated = false;
+                    timer = 0.0f;
+                    startCounting = false;
                     this.Move();
                 }
                 else
@@ -44,12 +43,7 @@ public class BasicAlien : AIbase {
         {
             return;
         }
-        if (!rotated)
-        {
-            float angle = Vector2.Angle(target.transform.position, this.transform.position);
-            this.transform.Rotate(Vector3.forward, angle);
-            rotated = true;
-        }
+        transform.up = (this.transform.position - target.transform.position).normalized;
         this.Shoot();
         if (startCounting)
         {

@@ -18,7 +18,7 @@ public class AlienBullet : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.gameObject.layer == 9)
+        if(col.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             Destroy(this.gameObject);
         }

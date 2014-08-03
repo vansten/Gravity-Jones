@@ -31,7 +31,7 @@ public class AlienDyingBox : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if(col.gameObject.layer == 9)
+        if(col.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             Destroy(rigidbody2D);
         }
