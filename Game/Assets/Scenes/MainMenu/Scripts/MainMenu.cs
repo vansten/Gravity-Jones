@@ -52,7 +52,7 @@ public class MainMenu : MonoBehaviour {
                     GoDown();
                 }
             }
-            if (Input.GetKeyUp(KeyCode.KeypadEnter) || Input.GetKeyUp(KeyCode.Joystick1Button0))
+            if (Input.GetKeyUp(KeyCode.Return) || Input.GetKeyUp(KeyCode.Joystick1Button0))
             {
                 if (chosenOption == 0)
                 {
