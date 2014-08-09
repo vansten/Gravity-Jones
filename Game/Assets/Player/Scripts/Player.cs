@@ -4,6 +4,7 @@ using System.Collections;
 public class Player : MonoBehaviour {
 
 	public float MovementSpeed = 25.0f;
+    public float CameraDistance = 10.0f;
 	public GameObject Bullet;
 	public float Cooldown = 0.5f;
 	public GameObject GravityBullet;
@@ -44,7 +45,7 @@ public class Player : MonoBehaviour {
         myCamera = Camera.main;
         isAlive = true;
         myCamera.transform.position = this.transform.position;
-        myCamera.transform.Translate(new Vector3(0, 0, -10.0f));
+        myCamera.transform.Translate(new Vector3(0, 0, -CameraDistance));
         this.GravityAmmo = GameController.GetAmmoOnLevel();
         RightStick.transform.position = this.transform.position + new Vector3(0, 1, 0);
     }

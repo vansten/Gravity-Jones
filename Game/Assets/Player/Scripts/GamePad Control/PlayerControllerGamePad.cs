@@ -15,7 +15,7 @@ public class PlayerControllerGamePad : Player {
 	    if(isAlive)
         {
             myCamera.transform.position = this.transform.position;
-            myCamera.transform.Translate(new Vector3(0, 0, -10.0f));
+            myCamera.transform.Translate(new Vector3(0, 0, -CameraDistance));
             float X = Input.GetAxis("Horizontal");
             float Y = Input.GetAxis("Vertical");
             if (X != 0 || Y != 0)

@@ -15,7 +15,7 @@ public class PlayerControllerKeyboard : Player {
         if (isAlive)
         {
             myCamera.transform.position = this.transform.position;
-            myCamera.transform.Translate(new Vector3(0, 0, -10.0f));
+            myCamera.transform.Translate(new Vector3(0, 0, -CameraDistance));
             if (Input.GetKey(KeyCode.A))
             {
                 this.transform.Translate(new Vector3(-MovementSpeed * Time.deltaTime, 0, 0), Space.World);
