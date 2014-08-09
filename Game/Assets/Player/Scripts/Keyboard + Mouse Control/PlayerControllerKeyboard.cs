@@ -6,14 +6,7 @@ public class PlayerControllerKeyboard : Player {
 	// Use this for initialization
 	void Start ()
     {
-        myCamera = Camera.main;
-        isAlive = true;
-        myCamera.transform.position = this.transform.position;
-        myCamera.transform.Translate(new Vector3(0, 0, -20.0f));
-        anim = this.gameObject.GetComponent<Animator>();
-        this.GravityAmmo = GameController.GetAmmoOnLevel();
-        audio = this.transform.GetComponents<AudioSource>();
-        RightStick.transform.position = this.transform.position + new Vector3(0, 1, 0);
+        base.Initialize();
 	}
 	
 	// Update is called once per frame
@@ -22,7 +15,7 @@ public class PlayerControllerKeyboard : Player {
         if (isAlive)
         {
             myCamera.transform.position = this.transform.position;
-            myCamera.transform.Translate(new Vector3(0, 0, -20.0f));
+            myCamera.transform.Translate(new Vector3(0, 0, -10.0f));
             if (Input.GetKey(KeyCode.A))
             {
                 this.transform.Translate(new Vector3(-MovementSpeed * Time.deltaTime, 0, 0), Space.World);

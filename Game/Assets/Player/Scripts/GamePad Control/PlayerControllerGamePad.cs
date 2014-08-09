@@ -6,14 +6,7 @@ public class PlayerControllerGamePad : Player {
 	// Use this for initialization
 	void Start ()
     {
-        myCamera = Camera.main;
-        isAlive = true;
-        myCamera.transform.position = this.transform.position;
-        myCamera.transform.Translate(new Vector3(0, 0, -20.0f));
-        anim = this.gameObject.GetComponent<Animator>();
-        this.GravityAmmo = GameController.GetAmmoOnLevel();
-        audio = this.transform.GetComponents<AudioSource>();
-        RightStick.transform.position = this.transform.position + new Vector3(0, 1, 0);
+        base.Initialize();
 	}
 	
 	// Update is called once per frame
@@ -22,7 +15,7 @@ public class PlayerControllerGamePad : Player {
 	    if(isAlive)
         {
             myCamera.transform.position = this.transform.position;
-            myCamera.transform.Translate(new Vector3(0, 0, -20.0f));
+            myCamera.transform.Translate(new Vector3(0, 0, -10.0f));
             float X = Input.GetAxis("Horizontal");
             float Y = Input.GetAxis("Vertical");
             if (X != 0 || Y != 0)

@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
-		
 		string[] inputArray = Input.GetJoystickNames ();
         if (inputArray.Length == 0)
         {

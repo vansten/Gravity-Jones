@@ -13,25 +13,24 @@ public class Player : MonoBehaviour {
 	public AudioClip ShootSound;
 	public GameObject Blood;
 	public AudioClip WalkSound;
-    public GameObject RightStick; 
+    public GameObject RightStick;
     public AudioClip DeathSound;
+    public Animator anim;
+    public new AudioSource[] audio;
 		
 	protected bool canShoot = true;
 	protected bool startCounting = false;
 	protected float timer = 0.0f;
 	protected bool isWalking = false;
-	protected Animator anim;
 	public static bool isAlive = true;
 	protected float deathTimer = 0.0f;
 	protected float deathCooldown = 2.0f;
 	protected bool planeDone = false;
-    protected new AudioSource[] audio;
     protected Camera myCamera;
 
 	// Use this for initialization
 	void Start ()
     {
-
 	}
 	
 	// Update is called once per frame
@@ -39,6 +38,16 @@ public class Player : MonoBehaviour {
     {
 
 	}
+
+    public void Initialize()
+    {
+        myCamera = Camera.main;
+        isAlive = true;
+        myCamera.transform.position = this.transform.position;
+        myCamera.transform.Translate(new Vector3(0, 0, -10.0f));
+        this.GravityAmmo = GameController.GetAmmoOnLevel();
+        RightStick.transform.position = this.transform.position + new Vector3(0, 1, 0);
+    }
 
     protected void Shoot()
     {
