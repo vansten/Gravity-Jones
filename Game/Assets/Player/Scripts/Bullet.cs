@@ -39,7 +39,7 @@ public class Bullet : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "EnemyDyingBox")
+        if (col.gameObject.tag == "EnemyDyingBox" || col.gameObject.tag == "Player")
         {
             col.gameObject.SendMessage("Die", "Bullet");
             Destroy(this.gameObject);
@@ -47,10 +47,6 @@ public class Bullet : MonoBehaviour {
         if(col.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             Destroy(this.gameObject);
-        }
-        if(col.gameObject.tag == "Player")
-        {
-            col.gameObject.SendMessage("Die", "Bullet");
         }
     }
 }

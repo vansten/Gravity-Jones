@@ -17,7 +17,7 @@ public class GravityBullet : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Bullet" || col.gameObject.tag == "Enemy" || col.gameObject.tag == "Lever" || col.gameObject.tag == "Log")
+        if (col.gameObject.tag == "Bullet" || col.gameObject.tag == "EnemyDyingBox" || col.gameObject.tag == "Lever" || col.gameObject.tag == "Log")
         {
             col.gameObject.SendMessage("Defy", ForceCenter);
         }
@@ -25,7 +25,7 @@ public class GravityBullet : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Bullet" || col.gameObject.tag == "Enemy" || col.gameObject.tag == "Lever" || col.gameObject.tag == "Log")
+        if (col.gameObject.tag == "Bullet" || col.gameObject.tag == "EnemyDyingBox" || col.gameObject.tag == "Lever" || col.gameObject.tag == "Log")
         {
             col.gameObject.SendMessage("StopDefying");
         }
