@@ -5,15 +5,14 @@ public class GameController : MonoBehaviour {
 
     public static int ArtifactsCount = 0;
     public static int[] GravityAmmo = new int[3];
-    [Range(0.0f, 1.0f)]
-    public float AmbientLight = 5.0f / 255.0f;
 
 	// Use this for initialization
 	void Start () {
         ArtifactsCount = PlayerPrefs.GetInt("Artifacts Count");
 		Screen.showCursor = false;
-        LoadGravityAmmo();
-        RenderSettings.ambientLight = new Color(AmbientLight, AmbientLight, AmbientLight);
+        GravityAmmo[0] = 3;
+        GravityAmmo[1] = 4;
+        GravityAmmo[2] = 5;
 	}
 
     public static int GetAmmoOnLevel()
@@ -27,14 +26,10 @@ public class GameController : MonoBehaviour {
         {
             Application.LoadLevel(Application.loadedLevel);
         }
-
         if(Input.GetKey(KeyCode.Escape) || Input.GetButton ("Start"))
         {
             Application.Quit();
         }
-
-#if UNITY_EDITOR
-        Debug.Log("Unity Editor: " + Application.unityVersion);
         if(Input.GetKey(KeyCode.L) || Input.GetButton ("Left Button"))
         {
             int loadedLevel = Application.loadedLevel;
@@ -48,14 +43,5 @@ public class GameController : MonoBehaviour {
             }
             Application.LoadLevel(loadedLevel);
         }
-        RenderSettings.ambientLight = new Color(AmbientLight, AmbientLight, AmbientLight);
-#endif
 	}
-
-    void LoadGravityAmmo()
-    {
-        GravityAmmo[0] = 3;
-        GravityAmmo[1] = 4;
-        GravityAmmo[2] = 5;
-    }
 }
